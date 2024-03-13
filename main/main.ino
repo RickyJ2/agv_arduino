@@ -1,12 +1,14 @@
-#include "IMU.h"
+#include "voltageReader.h"
 
-Kompas kompas;
+VoltageReader v(A0);
 
 void setup() {
   Serial.begin(9600);
-  kompas.init();
 }
 
 void loop() {
-  kompas.printOrientation();
+  Serial.print(v.getVolt());
+  Serial.print("\t");
+  Serial.println(v.getPercent());
+
 }

@@ -8,5 +8,5 @@ void setup() {
 }
 
 void loop() {
-  kompas.printAccel();
+  kompas.printOrientation();
 }

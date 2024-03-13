@@ -1,16 +1,12 @@
-#include "LimitSwitch.h"
-#include "Proximity.h"
+#include "IMU.h"
 
-// LimitSwitch limitA(7);
-Proximity proximity(2);
+Kompas kompas;
 
 void setup() {
   Serial.begin(9600);
-  proximity.init();
-  // limitA.init();
-  
+  kompas.init();
 }
 
 void loop() {
-  Serial.println(proximity.isObjectDetected());
+  kompas.printAccel();
 }

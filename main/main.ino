@@ -1,14 +1,10 @@
-#include "voltageReader.h"
+#include "MotorDriver.h"
 
-VoltageReader v(A0);
+MotorDriver car(6,7,8,9,10,11);
 
 void setup() {
-  Serial.begin(9600);
 }
 
 void loop() {
-  Serial.print(v.getVolt());
-  Serial.print("\t");
-  Serial.println(v.getPercent());
 
 }

@@ -11,13 +11,15 @@
 class VoltageReader {
   private:
     int pin;
-    float lowBat = 4.8;
-    float fullBat = 7.7;
+    float lowBat;
+    float fullBat;
   
   public:
     // Constructor
-    VoltageReader(int pinNumber) {
+    VoltageReader(int pinNumber, float lowBat, float fullBat) {
       pin = pinNumber;
+      this-> lowBat = lowBat;
+      this-> fullBat = fullBat;
     }
     
     float getVolt(){

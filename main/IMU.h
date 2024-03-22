@@ -29,11 +29,11 @@ class Kompas{
       float ypr[3];           // [yaw, pitch, roll]   yaw/pitch/roll container and gravity vector
 
     public:
-      Kompas(){}
-
-      void init(int int_pin = 2){
-        //inisialisasi parameter
+      Kompas(int int_pin = 5){
         interrupt_pin = int_pin;
+      }
+
+      void init(){
         // Untuk menginisialisasi Kompas
         Wire.begin();
         Wire.setClock(400000); // 400kHz I2C clock. Comment this line if having compilation difficulties

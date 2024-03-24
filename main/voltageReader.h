@@ -1,5 +1,5 @@
 #define VccMax 5
-#define VccCorrection 1.017173 //getVolt()/Real Voltage
+#define VccCorrection 1.017173 //VccCorrection = getVolt()/RealVoltage
 #include "math.h"
 
 /*
@@ -13,15 +13,29 @@ class VoltageReader {
     int pin;
     float lowBat;
     float fullBat;
+    int currentPercent;
   
   public:
-    // Constructor
+    // pinNumber: Analog Pin
     VoltageReader(int pinNumber, float lowBat, float fullBat) {
       pin = pinNumber;
       this-> lowBat = lowBat;
       this-> fullBat = fullBat;
+      currentPercent = 100;
+    }
+
+    void init(){
+      updateState();
     }
     
+    void updateState(){
+      currentPercent = getPercent();
+    }
+
+    int getState(){
+      return currentPercent;
+    }
+
     float getVolt(){
       return analogRead(pin) * VccMax / 1023.0 * 2 * VccCorrection;
     }

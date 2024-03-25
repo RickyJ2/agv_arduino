@@ -3,7 +3,7 @@ class Proximity {
   private:
     int pin;
     bool state;
-    unsigned long previousMillis = 0;
+    unsigned long previousSecond = 0;
   
   public:
     // Constructor
@@ -18,8 +18,8 @@ class Proximity {
     }
     //update state after certain time
     void updateState(unsigned long current){
-      if(current - previousMillis >= 5000){
-        previousMillis = current;
+      if(current - previousSecond >= 5){
+        previousSecond = current;
         state = isObjectDetected();
       }
     }

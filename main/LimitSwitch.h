@@ -8,7 +8,7 @@ class LimitSwitch {
   private:
     int pin;
     bool state;
-    unsigned long previousMillis = 0;
+    unsigned long previousSecond = 0;
   
   public:
     LimitSwitch(int pinNumber) {
@@ -23,8 +23,8 @@ class LimitSwitch {
 
     //update state after certain time
     void updateState(unsigned long current){
-      if(current - previousMillis >= 2000){
-        previousMillis = current;
+      if(current - previousSecond >= 1){
+        previousSecond = current;
         state = isPressed();
       }
     }

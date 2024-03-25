@@ -11,8 +11,8 @@ Proximity container(5);
 LimitSwitch uppperBumper(12);
 LimitSwitch bellowBumper(13);
 Kompas imu(5);
-VoltageReader powerbank(A2,3.2, 5.1);
-VoltageReader battery(A3,4.8, 7.7);
+VoltageReader powerbank(A3, 4.8, 5.2);
+VoltageReader battery(A2, 5, 7.7);
 
 void setup() {
   Serial.begin(9600);
@@ -26,10 +26,10 @@ void setup() {
 
 void loop() {
   //Update all sensor data
-  unsigned long currentMillis = millis();
-  container.updateState(currentMillis);
-  uppperBumper.updateState(currentMillis);
-  bellowBumper.updateState(currentMillis);
+  unsigned long currentSecond = millis()/1000;
+  container.updateState(currentSecond);
+  uppperBumper.updateState(currentSecond);
+  bellowBumper.updateState(currentSecond);
   imu.updateState();
   powerbank.updateState();
   battery.updateState();
@@ -45,6 +45,7 @@ void loop() {
   data["acceleration"]["x"] = acceleration.x;
   data["acceleration"]["y"] = acceleration.y;
   data["acceleration"]["z"] = acceleration.z;
+  
   if(powerbank.getState() <= battery.getState()){
     data["power"] = powerbank.getState();
   }else{
@@ -52,18 +53,23 @@ void loop() {
   }
   serializeJson(data, Serial);
   Serial.println();
-  // String msg = 
-  //   "{\"container\":" + String(container.getState()) + 
-  //   ",\"collision\":" + String(uppperBumper.getState() || bellowBumper.getState()) + 
-  //   ",\"orientation\":" + imu.getOrientationString() + 
-  //   ",\"acceleration\":" + imu.getAccelerationString() + 
-  //   ",\"power\":" + String(powerbank.getState() <= battery.getState() ? powerbank.getState() : battery.getState()) + //use lowest percent
-  // "}";
-  // Serial.println(msg);
 
   if(Serial.available() > 0){
     JsonDocument input;
     deserializeJson(input, Serial);
-    
+    String cmd = input["cmd"];
+    //Collission Routine
+    if(uppperBumper.getState() || bellowBumper.getState()){
+      motor.stop();
+    }else
+    if(input == "forward"){
+      motor.forward();
+    }else if(input == "backward"){
+      motor.backward();
+    }else if(input == "left"){
+      motor.turnLeft();
+    }else if(input == "right"){
+      motor.turnRight();
+    }
   }
 }

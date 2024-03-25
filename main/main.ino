@@ -51,6 +51,7 @@ void loop() {
     data["power"] = battery.getState();
   }
   serializeJson(data, Serial);
+  Serial.println();
   // String msg = 
   //   "{\"container\":" + String(container.getState()) + 
   //   ",\"collision\":" + String(uppperBumper.getState() || bellowBumper.getState()) + 

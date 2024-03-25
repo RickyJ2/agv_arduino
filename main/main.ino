@@ -1,3 +1,5 @@
+#include <ArduinoJson.h>
+#include <ArduinoJson.hpp>
 #include "MotorDriver.h"
 #include "Proximity.h"
 #include "LimitSwitch.h"
@@ -32,16 +34,35 @@ void loop() {
   powerbank.updateState();
   battery.updateState();
   //Send to raspberry
-  String msg =
-    "{\"container\":" + String(container.getState()) + 
-    ",\"collision\":" + String(uppperBumper.getState() || bellowBumper.getState()) + 
-    ",\"orientation\":" + imu.getOrientationString() + 
-    ",\"acceleration\":" + imu.getAccelerationString() + 
-    ",\"power\":" + String(powerbank.getState() <= battery.getState() ? powerbank.getState() : battery.getState()) + //use lowest percent
-  "}";
-  Serial.println(msg);
+  JsonDocument data;
+  data["container"] = container.getState();
+  data["collision"] = uppperBumper.getState() || bellowBumper.getState();
+  vec3_t orientation = imu.getOrientation();
+  vec3_t acceleration = imu.getAcceleration();
+  data["orientation"]["yaw"] = orientation.x;
+  data["orientation"]["roll"] = orientation.y;
+  data["orientation"]["pitch"] = orientation.z;
+  data["acceleration"]["x"] = acceleration.x;
+  data["acceleration"]["y"] = acceleration.y;
+  data["acceleration"]["z"] = acceleration.z;
+  if(powerbank.getState() <= battery.getState()){
+    data["power"] = powerbank.getState();
+  }else{
+    data["power"] = battery.getState();
+  }
+  serializeJson(data, Serial);
+  // String msg = 
+  //   "{\"container\":" + String(container.getState()) + 
+  //   ",\"collision\":" + String(uppperBumper.getState() || bellowBumper.getState()) + 
+  //   ",\"orientation\":" + imu.getOrientationString() + 
+  //   ",\"acceleration\":" + imu.getAccelerationString() + 
+  //   ",\"power\":" + String(powerbank.getState() <= battery.getState() ? powerbank.getState() : battery.getState()) + //use lowest percent
+  // "}";
+  // Serial.println(msg);
 
   if(Serial.available() > 0){
-
+    JsonDocument input;
+    deserializeJson(input, Serial);
+    
   }
 }

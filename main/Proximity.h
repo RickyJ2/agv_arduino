@@ -18,7 +18,7 @@ class Proximity {
     }
     //update state after certain time
     void updateState(unsigned long current){
-      if(current - previousSecond >= 5){
+      if(current - previousSecond >= 3){
         previousSecond = current;
         state = isObjectDetected();
       }

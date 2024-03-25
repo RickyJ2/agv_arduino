@@ -15,21 +15,21 @@ VoltageReader powerbank(A3, 4.8, 5.2);
 VoltageReader battery(A2, 5, 7.7);
 
 void setup() {
-  Serial.begin(9600);
   container.init();
   uppperBumper.init();
   bellowBumper.init();
   imu.init();
   powerbank.init();
   battery.init();
+  Serial.begin(9600);
 }
 
 void loop() {
   //Update all sensor data
   unsigned long currentSecond = millis()/1000;
   container.updateState(currentSecond);
-  uppperBumper.updateState(currentSecond);
-  bellowBumper.updateState(currentSecond);
+  uppperBumper.updateState();
+  bellowBumper.updateState();
   imu.updateState();
   powerbank.updateState();
   battery.updateState();

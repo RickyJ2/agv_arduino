@@ -51,13 +51,14 @@ void loop() {
   }else{
     data["power"] = battery.getState();
   }
-  serializeJson(data, Serial);
-  Serial.println();
+  // serializeJson(data, Serial);
+  // Serial.println();
 
   if(Serial.available() > 0){
     JsonDocument input;
     deserializeJson(input, Serial);
     String cmd = input["cmd"];
+    Serial.println(cmd);
     //Collission Routine
     if(uppperBumper.getState() || bellowBumper.getState()){
       motor.stop();

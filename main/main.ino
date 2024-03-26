@@ -51,26 +51,25 @@ void loop() {
   }else{
     data["power"] = battery.getState();
   }
-  // serializeJson(data, Serial);
-  // Serial.println();
+  serializeJson(data, Serial);
 
   if(Serial.available() > 0){
     JsonDocument input;
     deserializeJson(input, Serial);
     String cmd = input["cmd"];
-    Serial.println(cmd);
     //Collission Routine
     if(uppperBumper.getState() || bellowBumper.getState()){
       motor.stop();
-    }else
-    if(input == "forward"){
+    }else if(cmd == "forward"){
       motor.forward();
-    }else if(input == "backward"){
+    }else if(cmd == "backward"){
       motor.backward();
-    }else if(input == "left"){
+    }else if(cmd == "left"){
       motor.turnLeft();
-    }else if(input == "right"){
+    }else if(cmd == "right"){
       motor.turnRight();
+    }else if(cmd == "stop"){
+      motor.stop();
     }
   }
 }

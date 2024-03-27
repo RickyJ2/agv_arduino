@@ -59,18 +59,24 @@ void loop() {
     JsonDocument input;
     deserializeJson(input, Serial);
     String cmd = input["cmd"];
+    Serial.println("Received msg");
     //Collission Routine
     if(uppperBumper.getState() || bellowBumper.getState()){
       motor.stop();
     }else if(cmd == "forward"){
+      Serial.println("FORWARD");
       motor.forward();
     }else if(cmd == "backward"){
+      Serial.println("BACKWARD");
       motor.backward();
     }else if(cmd == "left"){
+      Serial.println("LEFT");
       motor.turnLeft();
     }else if(cmd == "right"){
+      Serial.println("RIGHT");
       motor.turnRight();
     }else if(cmd == "stop"){
+      Serial.println("STOP");
       motor.stop();
     }
   }

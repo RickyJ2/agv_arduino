@@ -15,6 +15,7 @@ VoltageReader powerbank(A3, 4.8, 5.2);
 VoltageReader battery(A2, 5, 7.7);
 
 void setup() {
+  motor.init();
   container.init();
   uppperBumper.init();
   bellowBumper.init();

@@ -53,6 +53,7 @@ void loop() {
     data["power"] = battery.getState();
   }
   serializeJson(data, Serial);
+  Serial.println();
 
   if(Serial.available() > 0){
     JsonDocument input;

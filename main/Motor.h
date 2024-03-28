@@ -3,6 +3,7 @@ class Motor {
     int enabPin;
     int in1;
     int in2;
+    int speed;
 
   public:
     Motor(){}
@@ -19,6 +20,7 @@ class Motor {
     }
 
     void setSpeed(int speed){
+      this->speed = speed;
       analogWrite(enabPin, speed);
     }
 
@@ -34,5 +36,8 @@ class Motor {
     void stop(){
       digitalWrite(in1, LOW);
       digitalWrite(in2, LOW);
+    }
+    int getSpeed(){
+      return speed;
     }
 };

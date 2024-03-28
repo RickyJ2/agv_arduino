@@ -5,6 +5,9 @@
 #include "LimitSwitch.h"
 #include "IMU.h"
 #include "voltageReader.h"
+#include "PIDController.h"
+#define maxSpeed 255
+#define minSpeed 160
 
 MotorDriver motor(6,7,8,9,10,11);
 Proximity container(5);
@@ -13,6 +16,11 @@ LimitSwitch bellowBumper(13);
 Kompas imu(5);
 VoltageReader powerbank(A3, 4.8, 5.2);
 VoltageReader battery(A2, 5, 7.7);
+PIDController pid(2,5,1);
+//AGV State
+float targetAngle = 0;
+bool isDriving = false;
+bool direction = true; //true: forward, false: backward
 
 void setup() {
   motor.init();
@@ -59,25 +67,40 @@ void loop() {
     JsonDocument input;
     deserializeJson(input, Serial);
     String cmd = input["cmd"];
-    Serial.println("Received msg");
     //Collission Routine
-    if(uppperBumper.getState() || bellowBumper.getState()){
-      motor.stop();
-    }else if(cmd == "forward"){
-      Serial.println("FORWARD");
+    // if(uppperBumper.getState() || bellowBumper.getState()){
+    //   motor.stop();
+    // }else 
+    if(cmd == "forward"){
       motor.forward();
+      isDriving = true;
+      direction = true;
     }else if(cmd == "backward"){
-      Serial.println("BACKWARD");
       motor.backward();
+      isDriving = true;
+      direction = false;
     }else if(cmd == "left"){
-      Serial.println("LEFT");
       motor.turnLeft();
+      targetAngle += 90;
+      if (targetAngle > 180){
+        targetAngle -= 360;
+      }
+      isDriving = false;
     }else if(cmd == "right"){
-      Serial.println("RIGHT");
       motor.turnRight();
+      targetAngle -= 90;
+      if (targetAngle <= -180){
+        targetAngle += 360;
+      }
+      isDriving = false;
     }else if(cmd == "stop"){
-      Serial.println("STOP");
       motor.stop();
+      isDriving = false;
     }
   }
+  //PID Calculate
+  // double output = pid.compute(orientation.x, targetAngle);
+  // if(output > 0){
+
+  // }
 }

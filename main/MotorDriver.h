@@ -1,8 +1,7 @@
 #include "Motor.h"
+#define maxSpeed 255
+#define minSpeed 160
 /*
-  MaxSpeed 255
-  MinSpeed 100
-
   Lebar Roda 36mm
   Jarak antar titik pusat Roda 189mm
 
@@ -22,12 +21,29 @@ class MotorDriver{
     void init(){
       left.init();
       right.init();
-      left.setSpeed(255);
-      right.setSpeed(255);
+      setSpeed(255);
     }
     void setSpeed(int speed){
-      left.setSpeed(speed);
-      right.setSpeed(speed);
+      setLeftSpeed(speed);
+      setRightSpeed(speed);
+    }
+    void setLeftSpeed(int speed){
+      if(speed > maxSpeed){
+        left.setSpeed(maxSpeed);
+      }else if(speed < minSpeed){
+        left.setSpeed(minSpeed);
+      }else{
+        left.setSpeed(speed);
+      } 
+    }
+    void setRightSpeed(int speed){
+      if(speed > maxSpeed){
+        right.setSpeed(maxSpeed);
+      }else if(speed < minSpeed){
+        right.setSpeed(minSpeed);
+      }else{
+        right.setSpeed(speed);
+      } 
     }
     void forward(){
       left.forward();
@@ -48,5 +64,11 @@ class MotorDriver{
     void stop(){
       left.stop();
       right.stop();
+    }
+    int getLeftSpeed(){
+      return left.getSpeed();
+    }
+    int getRightSpeed(){
+      return right.getSpeed();
     }
 };

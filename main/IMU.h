@@ -91,22 +91,4 @@ class Kompas{
     vec3_t getAcceleration(){
       return {aaReal.x, aaReal.y, aaReal.z};
     }
-
-    // String getOrientationString(){
-    //   String data =  
-    //     "{\"yaw\":" + String(ypr[0]) +
-    //     ",\"pitch\":" + String(ypr[1]) +
-    //     ",\"roll\":" + String(ypr[2]) +
-    //     "}";
-    //   return data;
-    // }
-
-    // String getAccelerationString(){
-    //   String data =  
-    //     "{\"x\":" + String(aaReal.x) +
-    //     ",\"y\":" + String(aaReal.y) +
-    //     ",\"z\":" + String(aaReal.z) +
-    //     "}";
-    //   return data;
-    // }
 };
